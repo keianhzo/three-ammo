@@ -119,6 +119,13 @@ export const WorkerHelpers = function(ammoWorker) {
     });
   };
 
+  const getBodyOptions = function(uuid) {
+    ammoWorker.postMessage({
+      type: MESSAGE_TYPES.BODY_OPTIONS,
+      uuid
+    });
+  };
+
   return {
     addBody,
     updateBody,
@@ -129,6 +136,7 @@ export const WorkerHelpers = function(ammoWorker) {
     removeConstraint,
     enableDebug,
     resetDynamicBody,
-    activateBody
+    activateBody,
+    getBodyOptions
   };
 };

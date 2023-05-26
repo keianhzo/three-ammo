@@ -136,6 +136,9 @@ const tick = () => {
         case MESSAGE_TYPES.ACTIVATE_BODY:
           activateBody(message);
           break;
+        case MESSAGE_TYPES.BODY_OPTIONS:
+          getBodyOptions(message);
+          break;
         default:
           console.error("Unknown message in queue", message);
           break;
@@ -308,6 +311,28 @@ function resetDynamicBody({ uuid }) {
 function activateBody({ uuid }) {
   if (bodies[uuid]) {
     bodies[uuid].physicsBody.activate();
+  }
+}
+
+function getBodyOptions({ uuid }) {
+  if (bodies[uuid]) {
+    const options = { 
+      type: bodies[uuid].type,
+      mass: bodies[uuid].mass,
+      gravity: bodies[uuid].gravity,
+      linearDamping: bodies[uuid].linearDamping,
+      angularDamping: bodies[uuid].angularDamping,
+      linearSleepingThreshold: bodies[uuid].linearSleepingThreshold,
+      angularSleepingThreshold: bodies[uuid].angularSleepingThreshold,
+      angularFactor	: bodies[uuid].angularFactor	,
+      activationState: bodies[uuid].activationState,
+      emitCollisionEvents: bodies[uuid].emitCollisionEvents,
+      disableCollision: bodies[uuid].disableCollision,
+      collisionFilterGroup: bodies[uuid].collisionFilterGroup,
+      collisionFilterMask: bodies[uuid].collisionFilterMask,
+      scaleAutoUpdate: bodies[uuid].scaleAutoUpdate,
+    };
+    postMessage({ type: MESSAGE_TYPES.BODY_OPTIONS, uuid, options: options });
   }
 }
 
